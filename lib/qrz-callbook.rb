@@ -1,11 +1,11 @@
-#!/usr/bin/env ruby
-
 require 'rubygems'
 require 'open-uri'
 require 'xmlsimple'
 require 'cgi'
 
-class QRZ
+class QRZCallbook
+
+	@@VERSION = '0.0.1'
 
 	class SessionError < StandardError; end
 
@@ -13,7 +13,7 @@ class QRZ
 	attr_reader   :session, :listing, :bio, :bio_file, :dxcc
 
 	QRZ_URL = 'http://www.qrz.com/xml'
-	AGENT = 'ruby-gem-qrz-callbook-0.0.1'
+	AGENT = "ruby-gem-qrz-callbook-#{@@VERSION}"
 
 	def initialize(args={})
 		@callsign = args['callsign']
@@ -85,4 +85,6 @@ class QRZ
 		@dxcc = content['DXCC']	
 	end
 
-end # class QRZ
+end # class QRZCallbook
+
+

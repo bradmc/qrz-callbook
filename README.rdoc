@@ -1,0 +1,80 @@
+= QRZCallbook
+
+This gem provides an easy object oriented front end to access Amateur Radio
+callsign data from the QRZ.COM online database.
+
+It uses the QRZ XML Database Service, which requires a subscription from QRZ.COM.
+
+The QRZ XML Database Service specification states "The data supplied by the XML port may
+be extended in a forwardly compatible manner. New XML elements and database objects
+(with their associated elements) may be transmitted at any time. It is the developers
+responsibility to have their program ignore any unrecognized objects and/or elements
+without raising an error, so long as the information received consists of properly formatted XML."
+
+Therefore, this gem will not attempt to list or manage individual elements of a callsign.  You
+will need to inspect the hash to see which elements are available for any given
+callsign, as demonstrated in the synopsis.
+
+This gem does not handle any management of reusing session keys at this time, although you can
+specify a key you have used previously when initializing, or at any time via the key accessor.
+
+== Usage
+
+  require "rubygems"
+  require "pp"
+  require "qrz-callbook"
+
+	qrz = QRZCallbook.new({
+		'callsign' => 'n8qq',
+		'username' => 'qrz_username',
+		'password' => 'qrz_password'
+	})
+
+  # get and inspect the basic listing
+
+	qrz.get_listing
+	pp qrz.listing
+
+  # get and inspect biography information
+
+	qrz.get_bio
+	pp qrz.bio
+
+	qrz.get_bio_file
+	puts "Biography: #{qrz.bio_file}"
+
+  # get and inspect dxcc information
+
+	qrz.get_dxcc
+	pp qrz.dxcc
+
+  # show the session information from the last call to the api
+
+	pp qrz.session
+
+  # set a new callsign and show some misc individual information
+
+	qrz.callsign = 'w8irc'
+	qrz.get_listing
+	qrz.get_dxcc
+
+	puts "Name: #{qrz.listing['fname']} #{qrz.listing['name']}"
+	puts "DXCC Continent: #{qrz.dxcc['continent']}"
+
+== Dependencies
+
+* xml-simple
+
+* A QRZ.COM subscription that includes access to the QRZ XML Database Service
+
+== See Also
+
+* In order to use this module you need to have a subscription for the QRZ XML Database Service.  See http://www.qrz.com/XML/index.html
+
+* The technical reference for the QRZ XML Database Service is at http://www.qrz.com/XML/current_spec.html
+
+== Copyright
+
+Copyright (c) 2010 Brad McConahay. See LICENSE.txt for
+further details.
+
